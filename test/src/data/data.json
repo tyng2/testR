@@ -1,0 +1,17 @@
+{
+    "list" : [0],
+    "menu" : [{
+        "link" : "/other",
+        "param": "id",
+        "name" : "OTHER"
+    },{
+        "link" : "/test",
+        "name" : "TEST"
+    },{
+        "link" : "/sus",
+        "name" : "SUS"
+    },{
+        "link" : "/list",
+        "name" : "LIST"
+    }]
+}
