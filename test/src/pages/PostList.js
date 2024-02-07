@@ -1,6 +1,7 @@
 import Button from 'react-bootstrap/Button';
 import { useEffect, useRef, useState } from 'react';
 import Posts from '../components/Posts';
+import FilterButton from '../components/FilterButton';
 
 export default function PostList({cont}){
 
@@ -53,6 +54,10 @@ console.log(postList);
         console.log(pageNum);
     };
 
+    let filterProc = () => {
+
+    };
+
     let rendering = () =>{
         let result = '';
         if (list && list.length > 0) {
@@ -61,13 +66,21 @@ console.log(postList);
         return result;
     };
     return (
-        <>
-            <p>CNT : {postList.current.length}</p>
+        <div className='tl'>
+            <div className='row'>
+                <div className=''>
+                    <FilterButton callBackFn={()=>filterProc()} />
+                </div>
+
+            </div>
+            <div style={{"text-align":"right"}}>CNT : {postList.current.length}</div>
             <div>
                 { rendering() }
             </div>
-            <Button variant='primary' onClick={nextPage} className='nextBtn mr-2'>NEXT</Button>
-            <Button variant='outline-primary' onClick={currPage} className='nextBtn'>CURPAGE</Button>
-        </>
+            <div className='tc'>
+                <Button variant='primary' onClick={nextPage} className='nextBtn mr-2'>NEXT</Button>
+                <Button variant='outline-primary' onClick={currPage} className='nextBtn'>CURPAGE</Button>
+            </div>
+        </div>
     );
 }

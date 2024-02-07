@@ -10,6 +10,7 @@ function TestSus({cont}){
     const [modalShow, setModalShow] = useState(false);
 
     useEffect(()=>{
+        console.log(Object.keys(data).length);
         if (data && data.constructor === Object && Object.keys(data).length > 0) {
             console.log('useEffect');
             setModalShow(true);
@@ -46,6 +47,7 @@ function TestSus({cont}){
         })
         .catch((e)=>{
             console.log(e);
+            return false;
         });
         setState(data);
         document.querySelector('#submitBtn').disabled = false;

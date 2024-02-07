@@ -5,6 +5,33 @@
   margin-right: .5rem !important;
 }
 
+div.button-group button {
+  min-width: 65px;
+}
+
+div.button-group button:not(:last-of-type) {
+  margin-right: .5rem;
+}
+
+div.button-group.filter button.up::after {
+  margin-left: .25rem;
+  background-image: url('../assets/arrow-up.png');
+  background-size: 15px 15px;
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  content: '';
+}
+
+div.button-group.filter button.down::after {
+  margin-left: .25rem;
+  background-image: url('../assets/arrow-down.png');
+  background-size: 15px 15px;
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  content: '';
+}
 
 #spinner {
   z-index: 500;
@@ -28,3 +55,11 @@
 li {
   list-style-type: none;
 }
+
+div.tl {
+  text-align: left;
+}
+div.tc {
+  text-align: center;
+}
+
