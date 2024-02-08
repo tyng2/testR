@@ -54,8 +54,27 @@ console.log(postList);
         console.log(pageNum);
     };
 
-    let filterProc = () => {
+    let filterProc = (order, upDown) => {
+        console.log(order + ' | ' + upDown);
+        let data = [];
+        let col = '';
+        switch (order) {
+            case 'i':
+                col = 'id';
+                break;
+            default:
+                col = 'userId';
+                break;
+        }
 
+        if (upDown == 'down') {
+            postList.current = postList.current.sort((a, b)=>b[col]-a[col]);
+        } else {
+            postList.current = postList.current.sort((a, b)=>a[col]-b[col]);
+        }
+        data = postList.current.slice(0, pageNum * pageSize);
+        setState(data);
+        setPage(1);
     };
 
     let rendering = () =>{
@@ -69,11 +88,11 @@ console.log(postList);
         <div className='tl'>
             <div className='row'>
                 <div className=''>
-                    <FilterButton callBackFn={()=>filterProc()} />
+                    <FilterButton callBackFn={filterProc} />
                 </div>
 
             </div>
-            <div style={{"text-align":"right"}}>CNT : {postList.current.length}</div>
+            <div style={{"textAlign":"right"}}>CNT : {postList.current.length}</div>
             <div>
                 { rendering() }
             </div>
