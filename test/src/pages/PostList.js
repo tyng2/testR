@@ -57,20 +57,20 @@ console.log(postList);
     let filterProc = (order, upDown) => {
         console.log(order + ' | ' + upDown);
         let data = [];
-        let col = '';
-        switch (order) {
-            case 'i':
-                col = 'id';
-                break;
-            default:
-                col = 'userId';
-                break;
-        }
+        // let col = '';
+        // switch (order) {
+        //     case 'i':
+        //         col = 'id';
+        //         break;
+        //     default:
+        //         col = 'userId';
+        //         break;
+        // }
 
         if (upDown == 'down') {
-            postList.current = postList.current.sort((a, b)=>b[col]-a[col]);
+            postList.current = postList.current.sort((a, b)=>b[order]-a[order]);
         } else {
-            postList.current = postList.current.sort((a, b)=>a[col]-b[col]);
+            postList.current = postList.current.sort((a, b)=>a[order]-b[order]);
         }
         data = postList.current.slice(0, pageNum * pageSize);
         setState(data);
