@@ -63,9 +63,9 @@ export default function PostList(){
         }
     };
 
-    let currPage = () =>{
-        alert(pageNum);
-    };
+    // let currPage = () =>{
+    //     alert(pageNum);
+    // };
 
     let filterProc = (order, upDown) => {
         console.log(order + ' | ' + upDown);
