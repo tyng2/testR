@@ -12,6 +12,18 @@ export default function PostList(){
     const postList = useRef([]);
 
     useEffect(()=>{
+        const scrollHandle = () => {
+            const { scrollTop, offsetHeight } = document.documentElement;
+            if (window.innerHeight + scrollTop >= offsetHeight) {
+                nextPage();
+                console.log(window.innerHeight + ' | ' + scrollTop + ' | ' + offsetHeight);
+            }
+        }
+        window.addEventListener('scroll', scrollHandle);
+        return () => window.removeEventListener('scroll', scrollHandle);
+    },[]);
+
+    useEffect(()=>{
         console.log('useEffect');
         if (mounted.current){
             console.log('mounted');
@@ -35,18 +47,18 @@ export default function PostList(){
             }
             data = postList.current.slice(0, pageNum * pageSize);
             setState(data);
-            document.querySelector('.nextBtn').disabled = false;
+            // document.querySelector('.nextBtn').disabled = false;
             if (postList.current.length <= pageNum * pageSize) {
-                document.querySelector('.nextBtn').style.display = 'none';
+                // document.querySelector('.nextBtn').style.display = 'none';
             } else {
-                document.querySelector('.nextBtn').style.display = '';
+                // document.querySelector('.nextBtn').style.display = '';
             }
         }
     };
 
     let nextPage = () =>{
         if (postList.current.length > pageNum * pageSize) {
-            document.querySelector('.nextBtn').disabled = true;
+            // document.querySelector('.nextBtn').disabled = true;
             setPage(pageNum => pageNum + 1);
         }
     };
@@ -97,10 +109,10 @@ export default function PostList(){
             <div>
                 { rendering() }
             </div>
-            <div className='tc'>
+            {/* <div className='tc'>
                 <Button variant='primary' onClick={nextPage} className='nextBtn mr-2'>NEXT</Button>
                 <Button variant='outline-primary' onClick={currPage} className='currBtn'>CURPAGE</Button>
-            </div>
+            </div> */}
         </div>
     );
 }
