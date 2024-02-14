@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import Posts from '../components/Posts';
 import FilterButton from '../components/FilterButton';
 
-export default function PostList({cont}){
+export default function PostList(){
 
     const [list, setState] = useState([]);
     const [pageNum, setPage] = useState(1);
@@ -26,10 +26,9 @@ export default function PostList({cont}){
 
     let getPostData = async () => {
         let data = [];
-console.log(postList);
         if (postList) {
             if (postList.current.length < 1) {
-    console.log('call API');            
+                console.log('call API');
                 postList.current = await fetch(
                     `https://jsonplaceholder.typicode.com/posts`
                 ).then((response) => response.json());
@@ -39,6 +38,8 @@ console.log(postList);
             document.querySelector('.nextBtn').disabled = false;
             if (postList.current.length <= pageNum * pageSize) {
                 document.querySelector('.nextBtn').style.display = 'none';
+            } else {
+                document.querySelector('.nextBtn').style.display = '';
             }
         }
     };
@@ -51,26 +52,25 @@ console.log(postList);
     };
 
     let currPage = () =>{
-        console.log(pageNum);
+        alert(pageNum);
     };
 
     let filterProc = (order, upDown) => {
         console.log(order + ' | ' + upDown);
         let data = [];
-        // let col = '';
-        // switch (order) {
-        //     case 'i':
-        //         col = 'id';
-        //         break;
-        //     default:
-        //         col = 'userId';
-        //         break;
-        // }
 
-        if (upDown == 'down') {
-            postList.current = postList.current.sort((a, b)=>b[order]-a[order]);
+        if (upDown === 'down') {
+            if (order === 'id') {
+                postList.current.sort((a, b)=>b[order]-a[order]);
+            } else {
+                postList.current.sort((a, b)=>b[order].localeCompare(a[order]) || b[order]-a[order]);
+            }
         } else {
-            postList.current = postList.current.sort((a, b)=>a[order]-b[order]);
+            if (order === 'id') {
+                postList.current.sort((a, b)=>a[order]-b[order]);
+            } else {
+                postList.current.sort((a, b)=>a[order].localeCompare(b[order]) || b[order]-a[order]);
+            }
         }
         data = postList.current.slice(0, pageNum * pageSize);
         setState(data);
@@ -84,6 +84,7 @@ console.log(postList);
         }
         return result;
     };
+
     return (
         <div className='tl'>
             <div className='row'>
@@ -98,7 +99,7 @@ console.log(postList);
             </div>
             <div className='tc'>
                 <Button variant='primary' onClick={nextPage} className='nextBtn mr-2'>NEXT</Button>
-                <Button variant='outline-primary' onClick={currPage} className='nextBtn'>CURPAGE</Button>
+                <Button variant='outline-primary' onClick={currPage} className='currBtn'>CURPAGE</Button>
             </div>
         </div>
     );
