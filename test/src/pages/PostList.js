@@ -1,4 +1,3 @@
-import Button from 'react-bootstrap/Button';
 import { useEffect, useRef, useState } from 'react';
 import Posts from '../components/Posts';
 import FilterButton from '../components/FilterButton';
@@ -7,6 +6,7 @@ export default function PostList(){
 
     const [list, setState] = useState([]);
     const [pageNum, setPage] = useState(1);
+    const [isFetching, setFetching] = useState(false);
     const pageSize = 10;
     const mounted = useRef(false);
     const postList = useRef([]);
@@ -15,13 +15,25 @@ export default function PostList(){
         const scrollHandle = () => {
             const { scrollTop, offsetHeight } = document.documentElement;
             if (window.innerHeight + scrollTop >= offsetHeight) {
-                nextPage();
                 console.log(window.innerHeight + ' | ' + scrollTop + ' | ' + offsetHeight);
+                setFetching(true);
             }
         }
         window.addEventListener('scroll', scrollHandle);
         return () => window.removeEventListener('scroll', scrollHandle);
     },[]);
+
+    useEffect(()=>{
+        if (isFetching) {
+            console.log(postList.current.length + ' > ' + pageNum + ' * ' + pageSize);
+            if (postList.current.length > pageNum * pageSize) {
+                setPage(pageNum => pageNum + 1);
+            } else {
+                console.log('end');
+            }
+            setFetching(false);
+        }
+    },[isFetching]);
 
     useEffect(()=>{
         console.log('useEffect');
@@ -47,25 +59,8 @@ export default function PostList(){
             }
             data = postList.current.slice(0, pageNum * pageSize);
             setState(data);
-            // document.querySelector('.nextBtn').disabled = false;
-            if (postList.current.length <= pageNum * pageSize) {
-                // document.querySelector('.nextBtn').style.display = 'none';
-            } else {
-                // document.querySelector('.nextBtn').style.display = '';
-            }
         }
     };
-
-    let nextPage = () =>{
-        if (postList.current.length > pageNum * pageSize) {
-            // document.querySelector('.nextBtn').disabled = true;
-            setPage(pageNum => pageNum + 1);
-        }
-    };
-
-    // let currPage = () =>{
-    //     alert(pageNum);
-    // };
 
     let filterProc = (order, upDown) => {
         console.log(order + ' | ' + upDown);
@@ -109,10 +104,6 @@ export default function PostList(){
             <div>
                 { rendering() }
             </div>
-            {/* <div className='tc'>
-                <Button variant='primary' onClick={nextPage} className='nextBtn mr-2'>NEXT</Button>
-                <Button variant='outline-primary' onClick={currPage} className='currBtn'>CURPAGE</Button>
-            </div> */}
         </div>
     );
 }
