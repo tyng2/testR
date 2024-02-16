@@ -6,7 +6,7 @@
 }
 
 div.button-group button {
-  min-width: 65px;
+  min-width: 100px;
 }
 
 div.button-group button:not(:last-of-type) {
@@ -21,6 +21,7 @@ div.button-group.filter button.up::after {
   width: 15px;
   height: 15px;
   content: '';
+  position: absolute;
 }
 
 div.button-group.filter button.down::after {
@@ -31,6 +32,7 @@ div.button-group.filter button.down::after {
   width: 15px;
   height: 15px;
   content: '';
+  position: absolute;
 }
 
 #spinner {

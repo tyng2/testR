@@ -1,15 +1,16 @@
 import { useEffect, useRef, useState } from 'react';
 import Posts from '../components/Posts';
 import FilterButton from '../components/FilterButton';
+import axios from 'axios';
 
 export default function PostList(){
 
     const [list, setState] = useState([]);
     const [pageNum, setPage] = useState(1);
     const [isFetching, setFetching] = useState(false);
-    const pageSize = 10;
     const mounted = useRef(false);
     const postList = useRef([]);
+    const pageSize = 10;
 
     useEffect(()=>{
         const scrollHandle = () => {
@@ -53,9 +54,12 @@ export default function PostList(){
         if (postList) {
             if (postList.current.length < 1) {
                 console.log('call API');
-                postList.current = await fetch(
+                // postList.current = await fetch(
+                //     `https://jsonplaceholder.typicode.com/posts`
+                // ).then((response) => response.json());
+                postList.current = await axios.get(
                     `https://jsonplaceholder.typicode.com/posts`
-                ).then((response) => response.json());
+                ).then((response) => response.data);
             }
             data = postList.current.slice(0, pageNum * pageSize);
             setState(data);
@@ -65,7 +69,6 @@ export default function PostList(){
     let filterProc = (order, upDown) => {
         console.log(order + ' | ' + upDown);
         let data = [];
-
         if (upDown === 'down') {
             if (order === 'id') {
                 postList.current.sort((a, b)=>b[order]-a[order]);
@@ -98,7 +101,6 @@ export default function PostList(){
                 <div className=''>
                     <FilterButton callBackFn={filterProc} />
                 </div>
-
             </div>
             <div style={{"textAlign":"right"}}>CNT : {postList.current.length}</div>
             <div>
